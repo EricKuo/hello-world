@@ -1,0 +1,107 @@
+iwpriv wifi1 setCountryID 4015
+wlanconfig ath0 create wlandev wifi1 wlanmode ap
+iwpriv ath0 mode 11ACVHT40PLUS
+iwpriv ath0 puren 0
+iwpriv ath0 wds 1
+iwconfig ath0 freq 36
+iwconfig ath0 essid _wds_202
+iwpriv ath0 bintval 100
+iwpriv ath0 dtim_period 1
+iwpriv ath0 tx_stbc 0
+iwpriv ath0 rx_stbc 0
+iwpriv ath0 hide_ssid 1
+iwconfig ath0 rts 0
+
+
+
+
+insmod /lib/modules/3.3.8/asf.ko
+insmod /lib/modules/3.3.8/adf.ko
+insmod /lib/modules/3.3.8/ath_hal.ko
+insmod /lib/modules/3.3.8/ath_rate_atheros.ko
+insmod /lib/modules/3.3.8/ath_dfs.ko
+insmod /lib/modules/3.3.8/ath_spectral.ko
+insmod /lib/modules/3.3.8/hst_tx99.ko
+insmod /lib/modules/3.3.8/ath_dev.ko
+insmod /lib/modules/3.3.8/umac.ko
+insmod /lib/modules/3.3.8/ath_pktlog.ko
+
+
+rmmod ath_pktlog
+rmmod umac
+rmmod ath_dev
+rmmod hst_tx99
+rmmod ath_spectral
+rmmod ath_dfs
+rmmod ath_rate_atheros
+rmmod ath_hal
+rmmod adf
+rmmod asf
+
+
+
+
+
+
+
+
+
+wlanconfig ath0 create wlandev wifi1 wlanmode ap wlanaddr 00:03:7f:11:11:11
+
+ifconfig wifi1 down
+ifconfig wifi1 up
+
+iwpriv wifi1 setCountryID 4015
+
+iwpriv ath0 bintval 100
+iwconfig ath0 rts 0
+iwpriv ath0 rx_stbc 0
+iwpriv ath0 tx_stbc 0
+iwpriv ath0 shortgi 1
+iwpriv ath0 wmm 1
+iwpriv ath0 puren 0
+iwpriv ath0 mode 11ACVHT40PLUS
+iwconfig ath0 channel 36
+iwconfig ath0 essid _wds_202
+iwpriv ath0 hide_ssid 1
+iwpriv ath0 dtim_period 1
+iwpriv ath0 wds 1
+ifconfig ath0 up
+brctl addif br-lan ath0
+ifconfig br-lan up
+
+
+wlanconfig ath0 create wlandev wifi1 wlanmode sta wlanaddr 00:03:7f:22:22:22 nosbeacon
+
+ifconfig wifi1 down
+ifconfig wifi1 up
+
+iwpriv wifi1 setCountryID 4015
+
+iwpriv ath0 rx_stbc 0
+iwpriv ath0 tx_stbc 0
+iwpriv ath0 shortgi 1
+iwpriv ath0 wmm 1
+iwpriv ath0 puren 0
+iwpriv ath0 mode 11ACVHT40PLUS
+iwconfig ath0 channel 36
+iwconfig ath0 essid _wds_202
+iwpriv ath0 wds 1
+ifconfig ath0 up
+brctl addif br-lan ath0
+ifconfig br-lan up
+
+
+
+
+ifconfig wifi1 down
+iwpriv wifi1 setHwaddr 00:12:34:56:78:ff
+iwpriv wifi1 setCountryID 4015
+ifconfig wifi1 up
+wlanconfig ath0 create wlandev wifi1 wlanmode sta wlanaddr 00:00:00:00:00:00
+iwpriv ath0 mode 11ACVHT40PLUS
+iwpriv ath0 puren 0
+iwpriv ath0 wds 1
+iwconfig ath0 essid _wds_202
+brctl addif br-lan ath0
+wpa_supplicant -i ath0 -c /wpa_supplicant-ath0.conf -dd
